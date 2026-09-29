@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Abishek Haththakage — Associate Site Reliability Engineer and DevOps-focused undergraduate. Experience in cloud infrastructure, Kubernetes, CI/CD, and automation."
+    />
+    <meta name="theme-color" content="#f8fafc" />
+    <title>Abishek Haththakage | Site Reliability &amp; DevOps</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      let savedTheme;
+      try {
+        savedTheme = localStorage.getItem("profile-theme");
+      } catch (error) {
+        if (!(error instanceof DOMException && error.name === "SecurityError")) throw error;
+        console.warn("Theme preference storage is unavailable.", error);
+      }
+      document.documentElement.dataset.theme = savedTheme === "dark" ? "dark" : "light";
+      document.querySelector('meta[name="theme-color"]').content =
+        document.documentElement.dataset.theme === "dark" ? "#0b1220" : "#f8fafc";
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      :root {
+        color-scheme: light;
+        --background: #f8fafc;
+        --foreground: #17263c;
+        --card: #ffffff;
+        --muted: #f1f5f9;
+        --muted-foreground: #52647a;
+        --primary: #175e75;
+        --primary-foreground: #ffffff;
+        --border: #dce5ec;
+        --ring: #227d91;
+        --radius: 0.85rem;
+        --copy: #405268;
+        --nav-hover: #e8f2f4;
+        --hero-glow: #d7f0ef;
+        --hero-start: #ffffff;
+        --hero-end: #f1f7fa;
+        --hero-outline: #bcd9db;
+        --badge-border: #d5e8e9;
+        --badge-background: #f1f9f8;
+        --badge-foreground: #205765;
+        --primary-hover: #104b5e;
+        --brand-foreground: #ffffff;
+      }
+
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --background: #0b1220;
+        --foreground: #eaf3f6;
+        --card: #111d2c;
+        --muted: #18293a;
+        --muted-foreground: #a8b8c7;
+        --primary: #7bd5df;
+        --primary-foreground: #0a2732;
+        --border: #2b4051;
+        --ring: #7bd5df;
+        --copy: #c5d3df;
+        --nav-hover: #183844;
+        --hero-glow: #153a48;
+        --hero-start: #101f2e;
+        --hero-end: #172e3b;
+        --hero-outline: #345a66;
+        --badge-border: #38626e;
+        --badge-background: #183844;
+        --badge-foreground: #b4e7e5;
+        --primary-hover: #9de6e9;
+        --brand-foreground: #0b1220;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -4rem;
+        left: 1rem;
+        z-index: 10;
+        padding: 0.5rem 0.75rem;
+        background: var(--foreground);
+        color: var(--background);
+      }
+
+      .skip-link:focus {
+        top: 1rem;
+      }
+
+      .page {
+        width: min(100% - 3rem, 1200px);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 270px minmax(0, 1fr);
+        gap: clamp(2rem, 5vw, 5rem);
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        align-self: start;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        padding: 3.25rem 0 2rem;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.84rem;
+        font-weight: 750;
+        letter-spacing: 0.035em;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 2.35rem;
+        height: 2.35rem;
+        border-radius: 0.7rem;
+        background: var(--foreground);
+        color: var(--brand-foreground);
+        font-size: 0.73rem;
+        letter-spacing: -0.04em;
+      }
+
+      .sidebar-label,
+      .eyebrow {
+        color: var(--primary);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .sidebar-label {
+        margin: 3.5rem 0 1rem 0.85rem;
+        color: var(--muted-foreground);
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        width: 100%;
+        min-height: 2.5rem;
+        margin-top: auto;
+        padding: 0.5rem 0.85rem;
+        border: 1px solid var(--border);
+        border-radius: 0.55rem;
+        background: var(--card);
+        color: var(--foreground);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.83rem;
+        font-weight: 650;
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--primary);
+      }
+
+      .theme-toggle:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 3px;
+      }
+
+      .theme-toggle svg {
+        width: 1rem;
+        height: 1rem;
+        flex: 0 0 auto;
+      }
+
+      :root[data-theme="light"] .sun-icon,
+      :root[data-theme="dark"] .moon-icon {
+        display: none;
+      }
+
+      .site-nav {
+        display: grid;
+        gap: 0.18rem;
+      }
+
+      .site-nav a {
+        padding: 0.48rem 0.85rem;
+        border-radius: 0.55rem;
+        color: var(--muted-foreground);
+        font-size: 0.88rem;
+        font-weight: 550;
+        transition: background 150ms, color 150ms;
+      }
+
+      .site-nav a:hover,
+      .site-nav a:focus-visible {
+        background: var(--nav-hover);
+        color: var(--primary);
+      }
+
+      .sidebar-bottom {
+        margin-top: 1rem;
+        border-top: 1px solid var(--border);
+        padding-top: 1.25rem;
+      }
+
+      .sidebar-bottom p {
+        margin: 0.15rem 0;
+        color: var(--muted-foreground);
+        font-size: 0.78rem;
+      }
+
+      .main {
+        min-width: 0;
+        padding: 3.25rem 0 5rem;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(1.65rem, 4vw, 3rem);
+        border: 1px solid var(--border);
+        border-radius: calc(var(--radius) + 0.5rem);
+        background: radial-gradient(circle at 85% 0%, var(--hero-glow) 0, transparent 40%),
+          linear-gradient(135deg, var(--hero-start) 40%, var(--hero-end) 100%);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        right: -4rem;
+        bottom: -8rem;
+        width: 22rem;
+        height: 22rem;
+        border: 1px solid var(--hero-outline);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 12ch;
+        margin: 0.8rem 0 0.65rem;
+        font-family: "Fraunces", Georgia, serif;
+        font-size: clamp(2.55rem, 5.1vw, 4.4rem);
+        font-weight: 500;
+        line-height: 1.08;
+        letter-spacing: -0.055em;
+      }
+
+      .role {
+        margin-bottom: 0.65rem;
+        color: var(--primary);
+        font-size: clamp(1rem, 1.7vw, 1.18rem);
+        font-weight: 650;
+      }
+
+      .location {
+        margin: 0;
+        color: var(--muted-foreground);
+        font-size: 0.88rem;
+      }
+
+      .portrait {
+        flex: 0 0 auto;
+        width: clamp(110px, 18vw, 172px);
+        height: clamp(110px, 18vw, 172px);
+        border: 5px solid var(--card);
+        border-radius: 50%;
+        box-shadow: 0 10px 35px #163b4c21;
+        object-fit: cover;
+      }
+
+      .hero-actions {
+        position: relative;
+        z-index: 1;
+        margin-top: 2rem;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 2.5rem;
+        padding: 0.5rem 0.95rem;
+        border: 1px solid var(--border);
+        border-radius: 0.55rem;
+        background: var(--card);
+        color: var(--foreground);
+        font-size: 0.85rem;
+        font-weight: 650;
+        line-height: 1.35;
+        transition: transform 150ms, background 150ms, border-color 150ms;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+        border-color: var(--primary);
+      }
+
+      .button-primary {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: var(--primary-foreground);
+      }
+
+      .button-primary:hover {
+        background: var(--primary-hover);
+      }
+
+      .section {
+        margin-top: 3.5rem;
+        scroll-margin-top: 2rem;
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-family: "Fraunces", Georgia, serif;
+        font-size: clamp(1.65rem, 2.5vw, 2.1rem);
+        font-weight: 500;
+        letter-spacing: -0.035em;
+      }
+
+      .section-heading::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: var(--border);
+      }
+
+      .intro {
+        max-width: 72ch;
+        margin: 0;
+        color: var(--copy);
+        font-size: 1.025rem;
+      }
+
+      .stack {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .card {
+        padding: clamp(1.25rem, 3vw, 1.8rem);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--card);
+        box-shadow: 0 2px 8px #17263c06;
+      }
+
+      .card-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.75rem 1.5rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .card h3 {
+        margin: 0;
+        font-size: 1.075rem;
+        line-height: 1.35;
+        letter-spacing: -0.015em;
+      }
+
+      .card-subtitle {
+        display: block;
+        margin-top: 0.2rem;
+        color: var(--primary);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .date {
+        flex: 0 0 auto;
+        color: var(--muted-foreground);
+        font-size: 0.8rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .detail-list {
+        display: grid;
+        gap: 0.5rem;
+        margin: 0;
+        padding-left: 1.15rem;
+        color: var(--copy);
+        font-size: 0.91rem;
+      }
+
+      .detail-list li {
+        padding-left: 0.15rem;
+      }
+
+      .detail-list li::marker {
+        color: var(--primary);
+      }
+
+      .two-column {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .education-meta {
+        margin: 0.5rem 0 0;
+        color: var(--muted-foreground);
+        font-size: 0.88rem;
+      }
+
+      .education-meta + .detail-list {
+        margin-top: 0.9rem;
+      }
+
+      .skill-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
+      }
+
+      .skill-group {
+        padding: 1rem 1.1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--card);
+      }
+
+      .skill-group h3 {
+        margin: 0 0 0.65rem;
+        color: var(--muted-foreground);
+        font-size: 0.75rem;
+        font-weight: 750;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.2rem 0.55rem;
+        border: 1px solid var(--badge-border);
+        border-radius: 0.45rem;
+        background: var(--badge-background);
+        color: var(--badge-foreground);
+        font-size: 0.74rem;
+        font-weight: 620;
+        line-height: 1.5;
+      }
+
+      .compact-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
+        min-height: 9rem;
+      }
+
+      .compact-card p {
+        margin: 0.35rem 0 0;
+        color: var(--muted-foreground);
+        font-size: 0.88rem;
+      }
+
+      .award-list,
+      .community-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .award-list li,
+      .community-list > li {
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .award-list li:first-child,
+      .community-list > li:first-child {
+        padding-top: 0;
+      }
+
+      .award-list li:last-child,
+      .community-list > li:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      .award-list strong,
+      .community-list strong {
+        display: block;
+        font-size: 0.93rem;
+      }
+
+      .award-list span,
+      .community-list span {
+        display: block;
+        color: var(--muted-foreground);
+        font-size: 0.86rem;
+      }
+
+      .community-list .detail-list {
+        margin-top: 0.6rem;
+      }
+
+      .reference-link {
+        overflow-wrap: anywhere;
+        color: var(--primary);
+        font-size: 0.85rem;
+      }
+
+      .reference-link:hover,
+      .footer a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .footer {
+        margin-top: 3.5rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid var(--border);
+        color: var(--muted-foreground);
+        font-size: 0.8rem;
+      }
+
+      @media (max-width: 900px) {
+        .page {
+          display: block;
+          width: min(100% - 2.5rem, 760px);
+        }
+
+        .sidebar {
+          position: relative;
+          height: auto;
+          padding: 1.2rem 0;
+          border-bottom: 1px solid var(--border);
+        }
+
+        .theme-toggle {
+          position: absolute;
+          top: 1.1rem;
+          right: 0;
+          justify-content: center;
+          width: 2.5rem;
+          margin: 0;
+          padding: 0;
+        }
+
+        .toggle-label {
+          display: none;
+        }
+
+        .brand {
+          margin-right: 3rem;
+        }
+
+        .sidebar-label,
+        .sidebar-bottom {
+          display: none;
+        }
+
+        .site-nav {
+          display: flex;
+          gap: 0.15rem;
+          overflow-x: auto;
+          margin-top: 0.75rem;
+          padding-bottom: 0.2rem;
+          scrollbar-width: thin;
+        }
+
+        .site-nav a {
+          flex: 0 0 auto;
+        }
+
+        .main {
+          padding-top: 1.5rem;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .page {
+          width: min(100% - 2rem, 760px);
+        }
+
+        .hero-inner {
+          align-items: flex-start;
+        }
+
+        .portrait {
+          width: 88px;
+          height: 88px;
+          border-width: 3px;
+        }
+
+        h1 {
+          font-size: clamp(2.2rem, 9vw, 3.2rem);
+        }
+
+        .section {
+          margin-top: 2.8rem;
+        }
+
+        .two-column,
+        .skill-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .card-header {
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .date {
+          white-space: normal;
+        }
+      }
+
+      @media (max-width: 390px) {
+        .hero-inner {
+          flex-direction: column-reverse;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .button,
+        .site-nav a {
+          transition: none;
+        }
+      }
+
+      @media print {
+        :root,
+        :root[data-theme="dark"] {
+          color-scheme: light;
+          --background: #ffffff;
+          --foreground: #17263c;
+          --card: #ffffff;
+          --muted-foreground: #52647a;
+          --primary: #175e75;
+          --border: #dce5ec;
+          --copy: #405268;
+          --hero-glow: #d7f0ef;
+          --hero-start: #ffffff;
+          --hero-end: #f1f7fa;
+          --badge-border: #d5e8e9;
+          --badge-background: #f1f9f8;
+          --badge-foreground: #205765;
+        }
+
+        body {
+          font-size: 10pt;
+        }
+
+        .page {
+          display: block;
+          width: 100%;
+        }
+
+        .sidebar,
+        .hero-actions,
+        .footer,
+        .skip-link {
+          display: none;
+        }
+
+        .main {
+          padding: 0;
+        }
+
+        .hero,
+        .card,
+        .skill-group {
+          box-shadow: none;
+          break-inside: avoid;
+        }
+
+        .hero {
+          padding: 1rem;
+        }
+
+        .hero::after {
+          display: none;
+        }
+
+        .section {
+          margin-top: 1.4rem;
+        }
+
+        .section-heading {
+          margin-bottom: 0.55rem;
+        }
+
+        .stack {
+          gap: 0.5rem;
+        }
+
+        .card {
+          padding: 0.85rem;
+        }
+
+        a {
+          text-decoration: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page">
+      <aside class="sidebar" aria-label="Site navigation">
+        <a class="brand" href="#top" aria-label="Abishek Haththakage, back to top">
+          <span class="brand-mark" aria-hidden="true">AH</span>
+          <span>ABISHEK HATHTHAKAGE</span>
+        </a>
+        <p class="sidebar-label">Explore profile</p>
+        <nav class="site-nav" aria-label="Profile sections">
+          <a href="#about">About</a>
+          <a href="#experience">Experience</a>
+          <a href="#education">Education</a>
+          <a href="#technologies">Technologies</a>
+          <a href="#certifications">Certifications</a>
+          <a href="#awards">Honors &amp; awards</a>
+          <a href="#community">Community</a>
+          <a href="#references">References</a>
+        </nav>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
+          <svg class="moon-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z" /></svg>
+          <svg class="sun-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></svg>
+          <span class="toggle-label">Dark mode</span>
+        </button>
+        <div class="sidebar-bottom">
+          <p>Based in Agalawaththa, Sri Lanka</p>
+          <p>Site reliability &middot; Cloud &middot; DevOps</p>
+        </div>
+      </aside>
+
+      <main class="main" id="main">
+        <header class="hero" id="top">
+          <div class="hero-inner">
+            <div>
+              <span class="eyebrow">Cloud infrastructure / DevOps</span>
+              <h1>Abishek Haththakage</h1>
+              <p class="role">Associate Site Reliability Engineer</p>
+              <p class="location">Dartonfild Road, Agalawaththa, Sri Lanka</p>
+            </div>
+            <img
+              class="portrait"
+              src="abishek-portrait-000.jpg"
+              alt="Portrait of Abishek Haththakage"
+              width="288"
+              height="288"
+            />
+          </div>
+          <div class="hero-actions flex flex-wrap gap-2" aria-label="Contact and social profiles">
+            <a class="button button-primary" href="mailto:aloka.abishek9@gmail.com">Email Abishek <span aria-hidden="true">&nearr;</span></a>
+            <a class="button" href="tel:+94765576407">076 557 6407</a>
+            <a class="button" href="https://www.linkedin.com/in/abhixsh" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">&nearr;</span></a>
+            <a class="button" href="https://github.com/abhixsh" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&nearr;</span></a>
+            <a class="button" href="https://medium.com/@abhixsh" target="_blank" rel="noopener noreferrer">Medium <span aria-hidden="true">&nearr;</span></a>
+          </div>
+        </header>
+
+        <section class="section" id="about" aria-labelledby="about-heading">
+          <div class="section-heading"><h2 id="about-heading">Profile</h2></div>
+          <p class="intro">
+            As a DevOps-focused undergraduate with hands-on industry experience, I enjoy building and improving cloud-based systems and automating development workflows. I have experience with containerized applications, CI/CD pipelines, and infrastructure automation, and I am eager to continuously learn and apply reliable and efficient DevOps practices.
+          </p>
+        </section>
+
+        <section class="section" id="experience" aria-labelledby="experience-heading">
+          <div class="section-heading"><h2 id="experience-heading">Experience</h2></div>
+          <div class="stack">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <h3>Associate Site Reliability Engineer</h3>
+                  <span class="card-subtitle">Treinetic</span>
+                </div>
+                <span class="date">June 2026 &ndash; Ongoing</span>
+              </div>
+              <ul class="detail-list">
+                <li>Managing and maintaining production infrastructure and application environments to ensure high availability and reliability.</li>
+                <li>Managing Kubernetes clusters and containerized workloads across development and production environments.</li>
+                <li>Supporting and improving CI/CD pipelines for application deployment and release management.</li>
+                <li>Monitoring system performance, application health, and infrastructure metrics to proactively identify issues.</li>
+                <li>Applying DevOps practices to improve automation, deployment efficiency, system reliability, and overall production stability across cloud infrastructure and services.</li>
+              </ul>
+            </article>
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <h3>Intern DevOps Engineer</h3>
+                  <span class="card-subtitle">Treinetic</span>
+                </div>
+                <span class="date">June 2025 &ndash; May 2026</span>
+              </div>
+              <ul class="detail-list">
+                <li>Managed and maintained CI/CD pipelines using Azure DevOps and GitHub Actions for multiple applications including front-end, back-end, and mobile (Android and iOS) services.</li>
+                <li>Containerized applications using Docker with multi-stage builds and optimized Dockerfiles to improve build efficiency and deployment consistency.</li>
+                <li>Supported AWS infrastructure operations including ECS, EC2, ALB, Route 53, CloudFront, SES, SNS, and VPC networking for development and production environments.</li>
+                <li>Automated infrastructure provisioning and configuration using Terraform and Ansible following infrastructure-as-code practices.</li>
+                <li>Integrated security and quality scanning tools such as SonarQube and Trivy into CI/CD pipelines to enhance code quality and detect vulnerabilities.</li>
+                <li>Implemented monitoring and alerting using Netdata, Uptime Kuma, and AWS CloudWatch to track system performance and service availability.</li>
+                <li>Assisted in troubleshooting deployment and infrastructure issues by analyzing logs, identifying root causes, and supporting resolution of system failures.</li>
+                <li>Contributed to internal server infrastructure setup including Docker, Portainer, Nginx Proxy Manager, n8n services, and AI model environments for internal DevOps tooling.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="education" aria-labelledby="education-heading">
+          <div class="section-heading"><h2 id="education-heading">Education</h2></div>
+          <div class="two-column">
+            <article class="card">
+              <h3>Bachelor of Information and Communication Technology Honours</h3>
+              <span class="card-subtitle">Uva Wellassa University of Sri Lanka</span>
+              <p class="education-meta">Jul 2022 &ndash; Ongoing</p>
+              <ul class="detail-list">
+                <li>CGPA: 3.49/4.0</li>
+                <li>Specializing in Software Technology</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Diploma in English Language &amp; Literature</h3>
+              <span class="card-subtitle">Aquinas College of Higher Education</span>
+              <p class="education-meta">Feb 2020 &ndash; May 2022</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="technologies" aria-labelledby="technologies-heading">
+          <div class="section-heading"><h2 id="technologies-heading">Technologies</h2></div>
+          <div class="skill-grid">
+            <div class="skill-group"><h3>Cloud platforms</h3><div class="flex flex-wrap gap-2"><span class="badge">Microsoft Azure</span><span class="badge">Amazon Web Services (AWS)</span></div></div>
+            <div class="skill-group"><h3>Containerization &amp; orchestration</h3><div class="flex flex-wrap gap-2"><span class="badge">Docker</span><span class="badge">Kubernetes</span></div></div>
+            <div class="skill-group"><h3>CI/CD</h3><div class="flex flex-wrap gap-2"><span class="badge">GitHub Actions</span><span class="badge">Azure DevOps</span><span class="badge">Jenkins</span><span class="badge">GitLab</span></div></div>
+            <div class="skill-group"><h3>Infrastructure as code</h3><div class="flex flex-wrap gap-2"><span class="badge">Terraform</span><span class="badge">Ansible</span></div></div>
+            <div class="skill-group"><h3>Monitoring &amp; observability</h3><div class="flex flex-wrap gap-2"><span class="badge">Prometheus</span><span class="badge">Grafana</span><span class="badge">Netdata</span></div></div>
+            <div class="skill-group"><h3>DevSecOps tools</h3><div class="flex flex-wrap gap-2"><span class="badge">SonarQube</span><span class="badge">Trivy</span></div></div>
+            <div class="skill-group"><h3>Web servers &amp; load balancing</h3><div class="flex flex-wrap gap-2"><span class="badge">NGINX</span></div></div>
+            <div class="skill-group"><h3>Programming &amp; development</h3><div class="flex flex-wrap gap-2"><span class="badge">Java</span><span class="badge">JavaScript</span><span class="badge">React</span><span class="badge">Node.js</span><span class="badge">Angular</span><span class="badge">Spring Boot</span><span class="badge">Laravel</span><span class="badge">SQL</span><span class="badge">MongoDB</span></div></div>
+            <div class="skill-group"><h3>Version control</h3><div class="flex flex-wrap gap-2"><span class="badge">Git</span><span class="badge">GitHub</span><span class="badge">BitBucket</span></div></div>
+            <div class="skill-group"><h3>Scripting &amp; automation</h3><div class="flex flex-wrap gap-2"><span class="badge">Bash</span><span class="badge">n8n</span></div></div>
+            <div class="skill-group"><h3>Other skills</h3><div class="flex flex-wrap gap-2"><span class="badge">Team Leadership</span><span class="badge">Team Player</span><span class="badge">Blogging / Article Writing</span><span class="badge">Public Speaking</span><span class="badge">Communication</span></div></div>
+          </div>
+        </section>
+
+        <section class="section" id="certifications" aria-labelledby="certifications-heading">
+          <div class="section-heading"><h2 id="certifications-heading">Certifications</h2></div>
+          <div class="two-column">
+            <article class="card compact-card">
+              <div><span class="eyebrow">Microsoft</span><h3>Azure AZ-900: Azure Fundamentals</h3></div>
+              <span class="date">April 18, 2024</span>
+            </article>
+            <article class="card compact-card">
+              <div><span class="eyebrow">GitHub</span><h3>GitHub Foundations</h3></div>
+              <span class="date">Jan 28, 2025</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="awards" aria-labelledby="awards-heading">
+          <div class="section-heading"><h2 id="awards-heading">Honors &amp; awards</h2></div>
+          <div class="card">
+            <ul class="award-list">
+              <li><strong>Winner &mdash; Pathfinder 3.0</strong><span>NexGen Marketers Association, Uva Wellassa University, Sri Lanka</span></li>
+              <li><strong>Gold Microsoft Learn Student Ambassador</strong><span>Microsoft</span></li>
+              <li><strong>1st Runner-Up &mdash; Most Outstanding Bulletin Editor</strong><span>Leo District 306 C2</span></li>
+              <li><strong>Top 10 &mdash; Inquisitive Minds 2022 Ideathon</strong><span>LED KLN Club, University of Kelaniya</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section" id="community" aria-labelledby="community-heading">
+          <div class="section-heading"><h2 id="community-heading">Extracurricular activities</h2></div>
+          <div class="card">
+            <ul class="community-list">
+              <li>
+                <strong>Microsoft Learn Student Ambassador</strong><span>Microsoft</span>
+                <ul class="detail-list">
+                  <li>Speaker: Bridging Development &amp; Operations with Azure DevOps</li>
+                  <li>Speaker: Foundations of Azure: Understanding Core Concepts and Essential Tools</li>
+                  <li>Speaker: Efficient Deployment Strategies by leveraging Docker and Azure Containers</li>
+                </ul>
+              </li>
+              <li><strong>Associate Organizer</strong><span>Cloud Native Sri Lanka</span></li>
+              <li><strong>Co-Organizer</strong><span>Sri Lanka Developer Forum</span></li>
+              <li><strong>Founding President</strong><span>Ms Club of Uva Wellassa University</span></li>
+              <li><strong>3rd Vice President</strong><span>Leo Club Of Uva Wellassa University</span></li>
+              <li><strong>Vice-Chair Public Visibility</strong><span>IEEE Sri Lanka Section SIGHT</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section" id="references" aria-labelledby="references-heading">
+          <div class="section-heading"><h2 id="references-heading">Non-related referees</h2></div>
+          <div class="two-column">
+            <article class="card">
+              <h3>Mr. Nilesh Jayanandana</h3>
+              <p class="education-meta">Principle Platform Architect, Insighture, Sri Lanka</p>
+              <a class="reference-link" href="tel:+61423360734">+61 423 360 734</a><br />
+              <a class="reference-link" href="mailto:nilesh93.j@gmail.com">nilesh93.j@gmail.com</a>
+            </article>
+            <article class="card">
+              <h3>Mr. Nikila Fernando</h3>
+              <p class="education-meta">Senior DevOps Enginner - Platform Engineering, Sysco LABS Sri Lanka, Sri Lanka</p>
+              <a class="reference-link" href="tel:+94773626373">+94 77 362 6373</a><br />
+              <a class="reference-link" href="mailto:nikila.fernando@sysco.com">nikila.fernando@sysco.com</a>
+            </article>
+          </div>
+        </section>
+
+        <footer class="footer flex flex-wrap justify-between gap-2">
+          <span>Abishek Haththakage &middot; Site Reliability &amp; DevOps</span>
+          <a href="#top">Back to top &uarr;</a>
+        </footer>
+      </main>
+    </div>
+    <script>
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+
+      function updateThemeToggle() {
+        const isDark = document.documentElement.dataset.theme === "dark";
+        const action = `Switch to ${isDark ? "light" : "dark"} mode`;
+        themeToggle.setAttribute("aria-pressed", String(isDark));
+        themeToggle.setAttribute("aria-label", action);
+        themeToggle.title = action;
+        themeToggle.querySelector(".toggle-label").textContent = isDark ? "Light mode" : "Dark mode";
+        themeColor.content = isDark ? "#0b1220" : "#f8fafc";
+      }
+
+      updateThemeToggle();
+      themeToggle.addEventListener("click", () => {
+        const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = nextTheme;
+        updateThemeToggle();
+        try {
+          localStorage.setItem("profile-theme", nextTheme);
+        } catch (error) {
+          if (!(error instanceof DOMException && error.name === "SecurityError")) throw error;
+          console.warn("Theme preference could not be saved.", error);
+        }
+      });
+    </script>
+  </body>
+</html>
